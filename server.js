@@ -20,7 +20,9 @@ mongoose
  
 //Routes
  const userRoute=require("./router/user.route");
+ const todoRoute=require("./router/todo.route")
 app.use("/user",userRoute);
+app.use("/todo",todoRoute);
 
 app.get("/",(req,res)=>{
     res.send("Hello word");

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const List = require("../models/todo.models");
+const List = require("../model/todo.models");
 
 router.post("/add", async (req, res) => {
   try {
