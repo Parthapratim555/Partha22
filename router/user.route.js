@@ -1,17 +1,37 @@
-const express = require("express");
+const express=require("express");
 const router = express.Router();
-const User = require("../model/user.model");
+const User = require("../models/user.model");
 
-router.post("/register", async (req, res) => {
-  const newUser = new User({
-    nameUser: req.body.userName,
-    email: req.body.email,
-    password: req.body.password,
-  });
-  const user = await newUser. save();
-  console.log(user);
-  res.status(201).json(user);
-  res.end();
+router.post("/register", async(req,res)=>{
+    try{
+
+    const newUser= new User({
+        userName: req.body.userName,
+        email: req.body.email, 
+        password: req.body.password,
+    });
+    if (await User.findOne({email:req.body.email})){
+        return res.status(602).send("Same email alreay exists");
+    }
+    const user= await newUser.save();
+    console.log(newUser);
+    res.status(201).json(user);
+    }catch(err){
+    res.status(400).send("Error:"+err);
+    }
+    res.end();
 });
 
-module.exports = router;
+router.get("/login",async(req,res)=>{
+try{
+    const user=await User.findOne({
+        email:req.body.email,
+        password:req.body.password,
+    });
+    res.status(200).json(user);
+} catch(err){
+  res.status(400).send("Error:"+err)  ;
+}
+});
+
+module.exports=router;
